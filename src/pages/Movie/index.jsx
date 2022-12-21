@@ -25,13 +25,53 @@ const Movie = () => {
     setMovie(data);
   };
 
+  const formatCurreny = (number) => {
+    return number.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  };
+
   useEffect(() => {
     const movieUrl = `${movieURL}${id}?${apiKey}`;
 
     getMovie(movieUrl);
   }, []);
 
-  return <div>{movie && <>{movie.title}</>}</div>;
+  return (
+    <div className="movie-page">
+      {movie && (
+        <>
+          <MovieCard movie={movie} showLink={false} />
+          <div className="tagline">{movie.tagline}</div>
+          <div className="info">
+            <h3>
+              <BsWallet2 /> Orçamento
+            </h3>
+            <p>{formatCurreny(movie.budget)}</p>
+          </div>
+          <div className="info">
+            <h3>
+              <BsGraphUp /> Receita
+            </h3>
+            <p>{formatCurreny(movie.revenue)}</p>
+          </div>
+          <div className="info">
+            <h3>
+              <BsHourglassSplit /> Duração
+            </h3>
+            <p>{movie.runtime} minutos</p>
+          </div>
+          <div className="info description">
+            <h3>
+              <BsFillFileEarmarkTextFill /> Descrição
+            </h3>
+            <p>{movie.overview}</p>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Movie;
